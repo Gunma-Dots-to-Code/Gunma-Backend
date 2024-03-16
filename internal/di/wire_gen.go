@@ -18,8 +18,10 @@ import (
 
 func Wire() *fiber.App {
 	gormDB := db.NewDB()
+	userRepository := repository.NewUserRepository(gormDB)
+	userController := controller.NewUserController(userRepository)
 	questionRepository := repository.NewQuestionRepository(gormDB)
 	questionController := controller.NewQuestionController(questionRepository)
-	app := router.NewRouter(questionController)
+	app := router.NewRouter(userController, questionController)
 	return app
 }

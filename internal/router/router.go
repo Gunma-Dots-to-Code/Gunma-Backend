@@ -8,13 +8,18 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
-func NewRouter(questionController controller.QuestionController) *fiber.App {
+func NewRouter(userController controller.UserController, questionController controller.QuestionController) *fiber.App {
 	app := setupRouter()
 
 	//health check
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
+
+	userRouter := app.Group("/users")
+	{
+		userRouter.Post("/", userController.Create)
+	}
 
 	// questionRouter := app.Group("/questions")
 	// {

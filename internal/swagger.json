@@ -1,0 +1,91 @@
+swagger: '2.0'
+info:
+  title: Example API
+  version: '1.0'
+paths:
+  /users:
+    post:
+      summary: Creates a user
+      description: Creates a new user in the system
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: The user to create
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Successfully created user
+          schema:
+            $ref: '#/definitions/User'
+definitions:
+  BaseModel:
+    type: object
+    properties:
+      ID:
+        type: integer
+      CreatedAt:
+        type: string
+        format: date-time
+      UpdatedAt:
+        type: string
+        format: date-time
+      DeletedAt:
+        type: string
+        format: date-time
+        nullable: true
+  User:
+    type: object
+    allOf:
+      - $ref: '#/definitions/BaseModel'
+      - type: object
+        properties:
+          Username:
+            type: string
+  Answer:
+    type: object
+    allOf:
+      - $ref: '#/definitions/BaseModel'
+      - type: object
+        properties:
+          UserID:
+            type: integer
+          QuestionID:
+            type: integer
+          AnswerContent:
+            type: string
+          User:
+            $ref: '#/definitions/User'
+          Question:
+            $ref: '#/definitions/Question'
+  Category:
+    type: object
+    allOf:
+      - $ref: '#/definitions/BaseModel'
+      - type: object
+        properties:
+          CategoryName:
+            type: string
+  Question:
+    type: object
+    allOf:
+      - $ref: '#/definitions/BaseModel'
+      - type: object
+        properties:
+          UserID:
+            type: integer
+          CategoryID:
+            type: integer
+          QuestionTitle:
+            type: string
+          QuestionContent:
+            type: string
+          User:
+            $ref: '#/definitions/User'
+          Category:
+            $ref: '#/definitions/Category'

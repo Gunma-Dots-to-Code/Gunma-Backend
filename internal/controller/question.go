@@ -8,6 +8,8 @@ import (
 
 type QuestionController interface {
 	Create(c *fiber.Ctx) error
+	Get(c *fiber.Ctx) error
+	// List(c *fiber.Ctx) error
 }
 
 func NewQuestionController(r repository.QuestionRepository) QuestionController {
@@ -29,4 +31,16 @@ func (qc *questionController) Create(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(question)
+}
+
+func (qc *questionController) Get(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	//idはuint型だけどもstring型のままrepositoryにアクセスして問題ない
+	question, err := qc.questionRepository.Get(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(question)
 }

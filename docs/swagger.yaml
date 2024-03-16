@@ -1,7 +1,7 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Example API
-  version: '1.0'
+  version: "1.0"
 paths:
   /users:
     post:
@@ -24,18 +24,18 @@ paths:
               Username:
                 type: string
       responses:
-        '201':
+        "201":
           description: Successfully created user
           schema:
-            $ref: '#/definitions/User'
-        '400':
+            $ref: "#/definitions/User"
+        "400":
           description: Bad request if user data is invalid
           schema:
             type: object
             properties:
               error:
                 type: string
-        '500':
+        "500":
           description: Internal server error if the user cannot be created
           schema:
             type: object
@@ -63,18 +63,18 @@ paths:
               CategoryName:
                 type: string
       responses:
-        '201':
+        "201":
           description: Successfully created category
           schema:
-            $ref: '#/definitions/Category'
-        '400':
+            $ref: "#/definitions/Category"
+        "400":
           description: Bad request if category data is invalid
           schema:
             type: object
             properties:
               error:
                 type: string
-        '500':
+        "500":
           description: Internal server error if the category cannot be created
           schema:
             type: object
@@ -89,14 +89,113 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: A list of categories
           schema:
             type: array
             items:
-              $ref: '#/definitions/Category'
-        '500':
+              $ref: "#/definitions/Category"
+        "500":
           description: Internal server error if the categories cannot be retrieved
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+  /questions:
+    post:
+      tags:
+        - Questions
+      summary: Creates a question
+      description: Creates a new question in the system
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: question
+          description: The question to create
+          required: true
+          schema:
+            type: object
+            properties:
+              UserID:
+                type: integer
+              CategoryID:
+                type: integer
+              QuestionTitle:
+                type: string
+              QuestionContent:
+                type: string
+      responses:
+        "201":
+          description: Successfully created question
+          schema:
+            $ref: "#/definitions/Question"
+        "400":
+          description: Bad request if question data is invalid
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "500":
+          description: Internal server error if the question cannot be created
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+    get:
+      tags:
+        - Questions
+      summary: Lists all questions
+      description: Retrieves a list of questions
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: A list of questions
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Question"
+        "500":
+          description: Internal server error if the questions cannot be retrieved
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+  /questions/{id}:
+    get:
+      tags:
+        - Questions
+      summary: Get a question
+      description: Retrieves a specific question by ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the question to retrieve
+          type: integer
+      responses:
+        "200":
+          description: A specific question
+          schema:
+            $ref: "#/definitions/Question"
+        "404":
+          description: Question not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "500":
+          description: Internal server error if the question cannot be retrieved
           schema:
             type: object
             properties:
@@ -117,11 +216,11 @@ definitions:
       DeletedAt:
         type: string
         format: date-time
-        nullable: true
+        x-nullable: true
   User:
     type: object
     allOf:
-      - $ref: '#/definitions/BaseModel'
+      - $ref: "#/definitions/BaseModel"
       - type: object
         properties:
           Username:
@@ -129,7 +228,7 @@ definitions:
   Category:
     type: object
     allOf:
-      - $ref: '#/definitions/BaseModel'
+      - $ref: "#/definitions/BaseModel"
       - type: object
         properties:
           CategoryName:
@@ -137,7 +236,7 @@ definitions:
   Answer:
     type: object
     allOf:
-      - $ref: '#/definitions/BaseModel'
+      - $ref: "#/definitions/BaseModel"
       - type: object
         properties:
           UserID:
@@ -147,13 +246,13 @@ definitions:
           AnswerContent:
             type: string
           User:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
           Question:
-            $ref: '#/definitions/Question'
+            $ref: "#/definitions/Question"
   Question:
     type: object
     allOf:
-      - $ref: '#/definitions/BaseModel'
+      - $ref: "#/definitions/BaseModel"
       - type: object
         properties:
           UserID:
@@ -165,6 +264,6 @@ definitions:
           QuestionContent:
             type: string
           User:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
           Category:
-            $ref: '#/definitions/Category'
+            $ref: "#/definitions/Category"

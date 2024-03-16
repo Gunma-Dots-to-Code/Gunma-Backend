@@ -8,6 +8,7 @@ import (
 
 type CategoryController interface {
 	Create(c *fiber.Ctx) error
+	List(c *fiber.Ctx) error
 }
 
 func NewCategoryController(r repository.CategoryRepository) CategoryController {
@@ -29,4 +30,13 @@ func (cc *categoryController) Create(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(category)
+}
+
+func (cc *categoryController) List(c *fiber.Ctx) error {
+	categories, err := cc.categoryRepository.List()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(categories)
 }

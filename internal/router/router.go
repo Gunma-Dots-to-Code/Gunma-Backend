@@ -29,6 +29,7 @@ func NewRouter(
 	categoryRouter := app.Group("/categories")
 	{
 		categoryRouter.Post("/", categoryController.Create)
+		categoryRouter.Get("/", categoryController.List)
 	}
 
 	questionRouter := app.Group("/questions")

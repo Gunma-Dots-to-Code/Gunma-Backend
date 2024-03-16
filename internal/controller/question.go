@@ -9,7 +9,7 @@ import (
 type QuestionController interface {
 	Create(c *fiber.Ctx) error
 	Get(c *fiber.Ctx) error
-	// List(c *fiber.Ctx) error
+	List(c *fiber.Ctx) error
 }
 
 func NewQuestionController(r repository.QuestionRepository) QuestionController {
@@ -29,7 +29,6 @@ func (qc *questionController) Create(c *fiber.Ctx) error {
 	if err := qc.questionRepository.Create(question); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-
 	return c.Status(fiber.StatusCreated).JSON(question)
 }
 
@@ -41,6 +40,17 @@ func (qc *questionController) Get(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
 	}
-
 	return c.Status(fiber.StatusOK).JSON(question)
 }
+
+func (qc *questionController) List(c *fiber.Ctx) error {
+	// すべてのquestionを取得
+	questions, err := qc.questionRepository.List()
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(questions)
+}
+
+

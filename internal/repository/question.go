@@ -8,6 +8,7 @@ import (
 type QuestionRepository interface {
 	Create(question *model.Question) error
 	Get(id string) (*model.Question, error)
+	List() ([]*model.Question, error)
 }
 
 func NewQuestionRepository(db *gorm.DB) QuestionRepository {
@@ -28,4 +29,12 @@ func (qr *questionRepository) Get(id string) (*model.Question, error) {
 		return nil, err
 	}
 	return question, nil
+}
+
+func (qr *questionRepository) List() ([]*model.Question, error) {
+	var questions []*model.Question
+	if err := qr.db.Find(&questions).Error; err != nil {
+		return nil, err
+	}
+	return questions, nil
 }

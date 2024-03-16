@@ -64,7 +64,7 @@ definitions:
         properties:
           Username:
             type: string
-Answer:
+  Answer:
     type: object
     allOf:
       - $ref: '#/definitions/BaseModel'

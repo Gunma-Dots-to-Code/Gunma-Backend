@@ -17,9 +17,13 @@ func Wire() *fiber.App {
 		db.NewDB,
 		router.NewRouter,
 		controller.NewUserController,
+		controller.NewCategoryController,
 		controller.NewQuestionController,
+		controller.NewAnswerController,
 		repository.NewUserRepository,
+		repository.NewCategoryRepository,
 		repository.NewQuestionRepository,
+		repository.NewAnswerRepository,
 	)
 	return &fiber.App{}
 }

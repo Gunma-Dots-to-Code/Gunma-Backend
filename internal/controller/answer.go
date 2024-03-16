@@ -8,7 +8,7 @@ import (
 
 type AnswerController interface {
 	Create(c *fiber.Ctx) error
-	Get(c *fiber.Ctx) error
+	GetByQuestionID(c *fiber.Ctx) error
 }
 
 func NewAnswerController(r repository.AnswerRepository) AnswerController {
@@ -33,12 +33,12 @@ func (ac *answerController) Create(c *fiber.Ctx) error {
 }
 
 
-func (ac *answerController) Get(c *fiber.Ctx) error {
-	id := c.Params("id")
+func (ac *answerController) GetByQuestionID(c *fiber.Ctx) error {
+	question_id := c.Params("question_id")
 
-	answer, err := ac.answerRepository.GET(id)
+	answer, err := ac.answerRepository.GetByQuestionID(question_id)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.Status(fiber.StatusOK).JSON(answer)
 }

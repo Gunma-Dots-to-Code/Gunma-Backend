@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    container_name: app
+    container_name: gunma_backend_app
     tty: true
     build:
       context: .
@@ -16,7 +16,7 @@ services:
     env_file: .env
 
   db:
-    container_name: db
+    container_name: gunma_backend_db
     build:
       context: .
       dockerfile: docker/db/Dockerfile

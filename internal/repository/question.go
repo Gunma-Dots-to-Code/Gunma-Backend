@@ -24,16 +24,16 @@ func (qr *questionRepository) Create(question *model.Question) error {
 }
 
 func (qr *questionRepository) Get(id string) (*model.Question, error) {
-	question := &model.Question{}
-	if err := qr.db.First(question, id).Error; err != nil {
-		return nil, err
-	}
-	return question, nil
+    question := &model.Question{}
+    if err := qr.db.Preload("User").Preload("Category").First(question, id).Error; err != nil {
+        return nil, err
+    }
+    return question, nil
 }
 
 func (qr *questionRepository) List() ([]*model.Question, error) {
 	var questions []*model.Question
-	if err := qr.db.Find(&questions).Error; err != nil {
+	if err := qr.db.Preload("User").Preload("Category").Find(&questions).Error; err != nil {
 		return nil, err
 	}
 	return questions, nil

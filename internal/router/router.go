@@ -42,6 +42,7 @@ func NewRouter(
 	answerRouter := app.Group("/answers")
 	{
 		answerRouter.Post("/", answerController.Create)
+		answerRouter.Get("/:question_id", answerController.GetByQuestionID)
 	}
 
 	return app

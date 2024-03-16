@@ -8,7 +8,7 @@ docker compose up -d
 ```
 3. 実行環境に入ります
 ```bash
-docker exec -it gunma-backend /bin/bash
+docker exec -it gunma_backend_app /bin/bash
 ```
 4. デバッグします
 ```bash

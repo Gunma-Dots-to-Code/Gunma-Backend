@@ -17,12 +17,29 @@ paths:
           description: The user to create
           required: true
           schema:
-            $ref: '#/definitions/User'
+            type: object
+            properties:
+              Username:
+                type: string
       responses:
-        '200':
+        '201':
           description: Successfully created user
           schema:
             $ref: '#/definitions/User'
+        '400':
+          description: Bad request if user data is invalid
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        '500':
+          description: Internal server error if the user cannot be created
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
 definitions:
   BaseModel:
     type: object
@@ -47,7 +64,7 @@ definitions:
         properties:
           Username:
             type: string
-  Answer:
+Answer:
     type: object
     allOf:
       - $ref: '#/definitions/BaseModel'

@@ -201,6 +201,68 @@ paths:
             properties:
               error:
                 type: string
+  /questions/{id}/answers:
+    post:
+      tags:
+        - Answers
+      summary: Creates a answer
+      description: Creates a new answer in the system
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: answer
+          description: The answer to create
+          required: true
+          schema:
+            type: object
+            properties:
+              UserID:
+                type: integer
+              AnswerContent:
+                type: string
+      responses:
+        "201":
+          description: Successfully created answer
+          schema:
+            $ref: "#/definitions/Answer"
+        "400":
+          description: Bad request if answer data is invalid
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "500":
+          description: Internal server error if the answer cannot be created
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+    get:
+      tags:
+        - Answers
+      summary: Lists all answer
+      description: Retrieves a list of answer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: A list of answer
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Answer"
+        "500":
+          description: Internal server error if the answer cannot be retrieved
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
 definitions:
   BaseModel:
     type: object

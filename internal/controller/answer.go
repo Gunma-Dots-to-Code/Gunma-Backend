@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"strconv"
+
 	"github.com/Gunma-Dots-to-Code/Gunma-Backend/internal/model"
 	"github.com/Gunma-Dots-to-Code/Gunma-Backend/internal/repository"
 	"github.com/gofiber/fiber/v2"
@@ -25,6 +27,12 @@ func (ac *answerController) Create(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
+	questionID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	answer.QuestionID = uint(questionID)
 	if err := ac.answerRepository.Create(answer); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -32,9 +40,8 @@ func (ac *answerController) Create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(answer)
 }
 
-
 func (ac *answerController) GetByQuestionID(c *fiber.Ctx) error {
-	question_id := c.Params("question_id")
+	question_id := c.Params("id")
 
 	answer, err := ac.answerRepository.GetByQuestionID(question_id)
 	if err != nil {

@@ -37,12 +37,12 @@ func NewRouter(
 		questionRouter.Post("/", questionController.Create)
 		questionRouter.Get("/", questionController.List)
 		questionRouter.Get("/:id", questionController.Get)
-	}
 
-	answerRouter := app.Group("/answers")
-	{
-		answerRouter.Post("/", answerController.Create)
-		answerRouter.Get("/:question_id", answerController.GetByQuestionID)
+		answerRouter := questionRouter.Group("/:id/answers")
+		{
+			answerRouter.Post("/", answerController.Create)
+			answerRouter.Get("/", answerController.GetByQuestionID)
+		}
 	}
 
 	return app

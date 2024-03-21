@@ -30,18 +30,18 @@ func NewRouter(
 	{
 		categoryRouter.Post("/", categoryController.Create)
 		categoryRouter.Get("/", categoryController.List)
-	}
 
-	questionRouter := app.Group("/questions")
-	{
-		questionRouter.Post("/", questionController.Create)
-		questionRouter.Get("/", questionController.List)
-		questionRouter.Get("/:id", questionController.Get)
-
-		answerRouter := questionRouter.Group("/:id/answers")
+		questionRouter := categoryRouter.Group("/:category_id/questions")
 		{
-			answerRouter.Post("/", answerController.Create)
-			answerRouter.Get("/", answerController.GetByQuestionID)
+			questionRouter.Post("/", questionController.Create)
+			questionRouter.Get("/", questionController.ListByCategoryID)
+			questionRouter.Get("/:question_id", questionController.Get)
+
+			answerRouter := questionRouter.Group("/:question_id/answers")
+			{
+				answerRouter.Post("/", answerController.Create)
+				answerRouter.Get("/", answerController.GetByQuestionID)
+			}
 		}
 	}
 

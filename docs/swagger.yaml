@@ -102,7 +102,7 @@ paths:
             properties:
               error:
                 type: string
-  /questions:
+  /categories/{category_id}/questions:
     post:
       tags:
         - Questions
@@ -121,8 +121,6 @@ paths:
             type: object
             properties:
               UserID:
-                type: integer
-              CategoryID:
                 type: integer
               QuestionTitle:
                 type: string
@@ -168,7 +166,7 @@ paths:
             properties:
               error:
                 type: string
-  /questions/{id}:
+  /categories/{category_id}/questions/{question_id}:
     get:
       tags:
         - Questions
@@ -201,7 +199,7 @@ paths:
             properties:
               error:
                 type: string
-  /questions/{id}/answers:
+  /categories/{category_id}/questions/{question_id}/answers:
     post:
       tags:
         - Answers

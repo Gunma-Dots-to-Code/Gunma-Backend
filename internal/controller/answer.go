@@ -27,7 +27,7 @@ func (ac *answerController) Create(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	questionID, err := strconv.Atoi(c.Params("id"))
+	questionID, err := strconv.Atoi(c.Params("question_id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -41,7 +41,7 @@ func (ac *answerController) Create(c *fiber.Ctx) error {
 }
 
 func (ac *answerController) GetByQuestionID(c *fiber.Ctx) error {
-	question_id := c.Params("id")
+	question_id := c.Params("question_id")
 
 	answer, err := ac.answerRepository.GetByQuestionID(question_id)
 	if err != nil {

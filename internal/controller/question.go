@@ -11,6 +11,7 @@ import (
 type QuestionController interface {
 	Create(c *fiber.Ctx) error
 	Get(c *fiber.Ctx) error
+	List(c *fiber.Ctx) error
 	ListByCategoryID(c *fiber.Ctx) error
 }
 
@@ -49,6 +50,16 @@ func (qc *questionController) Get(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.Status(fiber.StatusOK).JSON(question)
+}
+
+func (qc *questionController) List(c *fiber.Ctx) error {
+	// すべてのquestionを取得
+	questions, err := qc.questionRepository.List()
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(questions)
 }
 
 func (qc *questionController) ListByCategoryID(c *fiber.Ctx) error {

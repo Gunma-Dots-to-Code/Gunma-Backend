@@ -102,6 +102,28 @@ paths:
             properties:
               error:
                 type: string
+  /questions:
+    get:
+      tags:
+        - Questions
+      summary: Lists all questions
+      description: Retrieves a list of questions
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: A list of questions
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Question"
+        "500":
+          description: Internal server error if the questions cannot be retrieved
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
   /categories/{category_id}/questions:
     post:
       tags:
@@ -148,7 +170,7 @@ paths:
     get:
       tags:
         - Questions
-      summary: Lists all questions
+      summary: Lists all questions by category
       description: Retrieves a list of questions
       produces:
         - application/json

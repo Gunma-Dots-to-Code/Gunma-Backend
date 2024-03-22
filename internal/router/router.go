@@ -45,6 +45,11 @@ func NewRouter(
 		}
 	}
 
+	questionRouter := app.Group("/questions")
+	{
+		questionRouter.Get("/", questionController.List)
+	}
+
 	return app
 }
 

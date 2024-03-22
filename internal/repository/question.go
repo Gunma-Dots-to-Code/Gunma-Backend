@@ -8,6 +8,7 @@ import (
 type QuestionRepository interface {
 	Create(question *model.Question) error
 	Get(id string) (*model.Question, error)
+	List() ([]*model.Question, error)
 	ListByCategoryID(categoryID string) ([]*model.Question, error)
 }
 
@@ -29,6 +30,14 @@ func (qr *questionRepository) Get(id string) (*model.Question, error) {
 		return nil, err
 	}
 	return question, nil
+}
+
+func (qr *questionRepository) List() ([]*model.Question, error) {
+	var questions []*model.Question
+	if err := qr.db.Preload("User").Preload("Category").Find(&questions).Error; err != nil {
+		return nil, err
+	}
+	return questions, nil
 }
 
 func (qr *questionRepository) ListByCategoryID(categoryID string) ([]*model.Question, error) {
